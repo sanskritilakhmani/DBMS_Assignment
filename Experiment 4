@@ -1,0 +1,77 @@
+OBJECTIVE: To implement the concept of aggregating & grouping of Data.
+Theory:
+Group Functions: 
+Group functions operate on set of rows, result is based on group of rows rather than one result 
+per row as returned by single row functions.
+1)Avg    return average value of n
+Syntax:
+Avg ([distinct/all] n)
+2)Min    return minimum value of expr.
+Syntax:
+MIN([distinct/all] expr)
+3) Count  Returns the no of rows where expr is not null
+Syntax:
+Count ([distinct/all] expr)
+Count (*)   Returns the no rows in the table, including duplicates and those with nulls.
+4)Max     Return max value of expr
+Syntax:
+Max ([distinct/all]expr)
+5) Sum     Returns sum of values of n
+Syntax:
+Sum ([distinct/all]n) 
+Example Queries:
+Aggregate Functions Examples:
+select AVG(GPA) as “Average GPA” from student;
+Average GPA
+-----------------3.56666667
+Select AVG(DISTINCT GPA) as “Distinct GPA” from student
+Distinct GPA
+------------3.54285714
+Select MIN(GPA) as “Minimum GPA” from student
+Minimum GPA
+-----------------2.9
+Select COUNT(*) from student
+COUNT(*)
+----------12
+Select COUNT(sName) from student
+COUNT(SNAME)
+------------12
+select COUNT(distinct sName) from student
+COUNT(DISTINCTSNAME)
+-------------------------------------10
+Select MAX(GPA) from student
+MAX(GPA)
+---------3.9
+Select SUM(GPA) from student
+SUM(GPA)
+----------42.8
+Q.Find average GPA without using Average function.
+Select SUM(GPA)/COUNT(GPA) as “Average” from student
+Average
+----------3.56666667
+Grouping Data From Tables:
+There are circumstances where we would like to apply the aggregate function not only to a 
+single set of tuples, but also to a group of sets of tuples, we specify this wish in SQL using the 
+group by clause. The attribute or attributes given in the group by  clause are used to form group. 
+Tuples with the same value on all attributes in the group by clause are placed in one group.
+Syntax:
+SELECT columnname, columnname
+FROM  tablename
+GROUP BY columnname;
+HAVING clause:
+The  HAVING  clause  can  be  used  in  conjunction  with  the  GROUP  BY  clause.  HAVING 
+imposes  a condition on the GROUP BY clause, this further filters the groups created by the 
+GROUP BY clause. 
+HAVING clause can be used to find duplicates in a relation or in other words find unique values 
+in the situations where DISTINCT cannot apply.
+NOTE:  Each  column  specifications  specified  in  HAVING  clause  must  occur  in  the  list  of 
+columns named in the GROUP BY clause.
+Example
+1. select state, count(cname) from college GROUP BY state;
+STATE COUNT(CNAME)
+----------   ------------CA 2
+MA 1
+NY 1
+2. select state, count(cname) from college GROUP BY state having count(cname)>1;
+STATE COUNT(CNAME)
+----------   ------------------------CA    2
