@@ -1,0 +1,132 @@
+OBJECTIVE: To implement the restrictions on the structure of the table.
+Theory:
+Data constraints:  Besides the column name, column length and column  data type,
+there are other parameters i.e. other data  constraints that can be passed by  the DBA 
+at check creation time. The constraints can either be placed at column level or at the 
+table level.
+i.  Column  Level  Constraints:  If  the  constraints  are  defined  along  with  the 
+column definition, it is called a column level constraint.
+ii.  Table  Level  Constraints:  If  the  data  constraint  attached  to  a  specified 
+column  in a table reference the contents of another column  in the table then 
+the user will have to use table level constraints.
+List of most used Constraint
+NOT NULL
+DEFAULT
+UNIQUE
+CHECK
+PRIMARY KEY
+FOREIGN KEY
+o  On delete cascade
+o  On delete set null
+Null  Value  Concepts:-while  creating  tables  if  a  row  lacks  a  data  value  for 
+particular  column  that  value  is  said  to  be  null.  Column  of  any  data  types  may 
+contain null values unless the column was defined as not null when the table was 
+created.
+Syntax:
+Create table tablename
+(columnname data type (size) not null ……)
+Note: Not null constraint cannot be defined at table level.
+Primary  Key:  primary  key  is  one  or  more  columns  is  a  table  used  to  uniquely 
+identify  each  row  in  the  table.  Primary  key  values  must  not  be  null  and  must  be 
+unique  across the column. A multicolumn primary key is called composite primary 
+key.
+Syntax: primary key as a column constraint
+Create table tablename
+(columnname datatype (size) primary key,….)
+Composite Primary key as a table constraint
+Create table tablename
+(columnnamedatatype (size), columnnamedatatype( size)…
+Primary key (columnname,columnname));
+Unique  key  concept:-A  unique  key  is  similar  to  a  primary  key  except  that  the 
+purpose of a unique key is to ensure that information in the column for each record 
+is  unique  as  with  telephone  or  devices  license  numbers.  A  table  may  have  many 
+unique keys.
+Syntax: Unique as a column constraint.
+Create table table name
+(columnname datatype (size) unique); 
+Unique as table constraint:
+Create table tablename
+(columnname datatype(size),columnname datatype(size)…
+unique (columnname));
+Default  value  concept:  At  the  time  of  column  creation,  a  default  value  can  be 
+assigned to it. When the user is loading a record  with values and leaves this column
+empty,  the  DBA  will  automatically  load  this  column  with  the  default  value 
+specified.  The  data  type  of  the  default  value  should  match  the  data  type  of  the 
+column.
+Syntax:
+Create table tablename
+(columnnamedatatype (size) default value,….);
+Note: The default value constraint cannot be specified at table level.
+Foreign  Key  Concept:  Foreign  key  represents  relationship  between  tables.  A 
+foreign key is column whose values are derived from the primary key of the same
+attribute  of some other table.  A foreign key must have corresponding primary key 
+value in the primary key table to have meaning.
+Foreign key as a column constraint
+Syntax :
+Create table table name
+(columnname datatype(size) references another-tablename);
+Foreign key as a table constraint:
+Syntax :
+Create table name
+(columnname datatype(size)….
+foreign key(columnname) references table name);
+Check Integrity Constraints:  Use the check constraints when you need to enforce 
+integrity rules that can be evaluated based on a logical expression. Following are a 
+few examples of appropriate check constraints.
+A  check  constraints  on  the  column  ‘name’  of  the  Employee  table  so  that  the 
+name is entered in upper case.
+A  check constraint on the column ‘Emp_no’  of the  Employee table so that no 
+Emp_no value starts with ‘e’.
+Syntax:
+Create table tablename
+(columnname datatype(size),……..
+CONSTRAINT constraintname check(expression));
+Modifying the Structure of Tables- Alter table command is used to changing the 
+structure of a table. Using the alter table clause you cannot perform the following 
+tasks:
+(i)  change the name of table
+(ii)  decrease the size of a column if table data exists and occupies larger size.
+The following tasks you can perform through alter table command.
+(i)  Adding new columns:
+Syntax:
+ALTER TABLE tablename
+ADD (newcolumnnamenewdatatype (size));
+(ii)  Modifying existing table
+Syntax: 
+ALTER TABLE tablename
+MODIFY (newcolumnnamenewdatatype (size));
+(iii)  Deleting a column
+Syntax: 
+ALTER TABLE tablename
+DROP COLUMN columnname;
+Removing/Deleting Tables- Following command is used for removing or deleting 
+a table.
+Syntax:
+DROP TABLE tablename;
+Defining Integrity constraints in the ALTER TABLE commandYou can also define integrity constraints using the constraint clause in the ALTER 
+TABLE command. The following examples show the definitions of several 
+integrity constraints.
+(1)  Add PRIMARY KEYSyntax:
+ALTER TABLE tablename
+ADD PRIMARY KEY(columnname);
+(2)  Add FOREIGN KEYSyntax:
+ALTER TABLE tablename
+ADD CONSTRAINT constraintname
+FOREIGN KEY(columnname) REFERENCES tablename;
+(3)  Add CHECK CONSTRAINTSyntax:
+ALTER TABLE tablename
+ADD CONSTRAINT constraintname
+Check(expression);
+Dropping integrity constraints in the ALTER TABLE commandYou can drop an integrity constraint if the rule that it enforces is no longer true or if 
+the constraint is no longer needed. Drop the constraint using the ALTER TABLE 
+command with the DROP clause. The following examples illustrate the dropping of 
+integrity constraints.
+(1)  DROP the PRIMARY KEYSyntax:
+ALTER TABLE tablename
+DROP PRIMARY KEY;
+(2)  DROP FOREIGN KEYSyntax:
+ALTER TABLE tablename
+DROP FOREIGN KEY;
+(3)  DROP CONSTRAINTSyntax:
+ALTER TABLE tablename
+DROP CONSTRAINT constraintname;
