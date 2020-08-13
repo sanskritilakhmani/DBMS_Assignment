@@ -1,0 +1,124 @@
+Theory & Concepts:
+Introduction about SQLSQL (Structured Query  Language) is a nonprocedural language, you specify what you 
+want, not how to get it. A block structured format of English key  words is used in this 
+Query language. 
+It has the following components.
+  DDL (Data Definition Language)
+  DML (DATA Manipulation Language)
+  View definition
+  Transaction Control
+  Embedded SQL and Dynamic SQL
+  Integrity
+  Authorization
+Data Definition LanguageThe SQL DDL allows specification of not only a set of relations but also information 
+about each relation, including-  Schema for each relation
+  The domain of values associated with each attribute.
+  The integrity constraints.
+  The set of indices to be maintained for each relation.
+  The security and authorization information for each relation.
+  The physical storage structure of each relation on disk.
+Domain types in SQLThe SQL standard supports a variety of built in domain types, including-  Char (n)- A fixed length character length string with user specified length .
+  Varchar (n)- A variable character length string with user specified maximum 
+length n.
+  Number (p, d)-A Fixed point number with user defined precision.
+  Real, double precision- Floating point and double precision floating point 
+numbers with machine dependent precision.
+  Float (n)- A floating point number, with precision of at least n digits.
+  Date- A calendar date containing a (four digit) year, month and day of the 
+month.
+  Time- The time of day, in hours, minutes and seconds Eg. Time ’09:30:00’. 
+DDL statement for creating a tableSyntaxCreate table tablename
+(columnnamedatatype(size), columnnamedatatype(size));
+Creating a table from a tableSyntaxCREATE TABLE TABLENAME
+[(columnname, columnname, ………)]
+AS SELECT columnname, columnname……..FROM tablename;
+Rules:
+1.  Oracle reserved words cannot be used.
+2.  Underscore, numerals, letters are allowed but not blank space.
+3.  Maximum length for the table name is 30 characters.
+4.  2 different tables should not have same name.
+5.  We should specify a unique column name.
+6.  We should specify proper data type along with width.
+7.  We can include “not null” condition when needed. By default it is ‘null’.
+Insertion of data into tablesSyntaxINSERT INTO tablename
+[(columnname, columnname, ………)]
+Values(expression, expression);
+Inserting data into a table from another table:
+SyntaxINSERT INTO tablename
+SELECT columnname, columnname, …….
+FROM tablename;
+Insertion of selected data into a table from another table:
+SyntaxINSERT INTO tablename
+SELECT columnname, columnname……..
+FROM tablename
+WHERE columnname= expression;
+Retrieving of data from the tablesSyntaxSELECT * FROM tablename;
+The retrieving of specific columns from a tableSyntaxSELECT columnname, columnname, ….
+FROM tablename;
+Elimination of duplicates from the select statementSyntaxSELECT DISTINCT columnname, columnname
+FROM tablename; 
+Selecting a data set from table data-SyntaxSELECT columnname, columnname
+FROM tablename
+WHERE searchcondition;
+The SELECT DISTINCT * SQL syntax scans through entire rows, and eliminates 
+rows that have exactly the same contents in each column.
+Syntax:
+SELECT DISTINCT *
+FROM TableName;
+DML ( Data Manipulation Language) 
+Data manipulation is 
+  The retrieval of information stored in the database.
+  The insertion of new information into the database.
+  The deletion of information from the database.
+  The modification of information stored by the appropriate data model. There are 
+basically two types.
+(i)  Procedural DML:-  require a user to specify what data are needed and how 
+to get those data.
+(ii)  Non Procedural DML  : require a user to specify what data are needed without 
+specifying how to get those data.
+Updating the content of a table:
+In creation situation we may wish to change a value in table without changing all values 
+in the tuple . For this purpose the update statement can be used.
+Update table name
+Set columnname = expression, columnname =expression……
+Where columnname = expression;
+Deletion Operation:-We can delete whole tuple ( rows) we can delete values on only particulars attributes.
+Deletion of all rows
+Syntax:
+Delete from tablename;
+Deletion of specified number of rows
+Syntax:
+Delete from table name
+where search_condition;
+Computation in expression lists used to select data:-+   Addition    -   Subtraction
+*  multiplication    **   exponentiation
+/   Division    ()   Enclosed operation
+Renaming columns used with Expression Lists:  -  The default output column names can 
+be renamed by the user if required
+Syntax:
+Select columnname   result_columnname, columnname
+result_columnname 
+from tablename;
+Logical Operators:
+The logical operators that can be used in SQL sentenced are
+AND    all of must be included
+OR    any of may be included
+NOT    none of could be included
+Range Searching: Between operation is used for range searching.
+Pattern Searching: 
+Themost commonly used operation on string is pattern matching using the operation ‘like’ 
+we describe patterns by using two special characters.
+  Percent (%) ; the % character matches any substring we consider the following 
+examples.
+o  ‘Perry %’ matches any string beginning with perry
+o  ‘% idge % matches any string containing’ idge as substring.
+o  ‘ - - - ‘ matches any string exactly three characters.
+o  ‘ - - - % matches any string of at least of three characters.
+Ordering tuples in a particular order:
+  The ‘order by’ clause is used to sort the table data according to one or more 
+columns of the table.
+  The table rows are ordered in ascending order of the column values by default. 
+The keyword used for the same is ‘asc’. For sorting the table data according to 
+colname in descending order, keyword ‘desc’ is used.
+Example: select colname1, colname2,… from tablename where search condition orderby 
+colname1 asc/desc, colname2 asc/desc,…;
