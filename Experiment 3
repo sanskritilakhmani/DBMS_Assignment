@@ -1,0 +1,105 @@
+Objective:  Write the SQL queries using Set Operations and Joins.
+Theory & Concepts:
+SQL JOINS are used to retrieve data from multiple tables. A SQL JOIN is performed 
+whenever two or more tables are joined in a SQL statement.
+There are different types of SQL joins:
+SQL INNER JOIN (or sometimes called simple join)
+SQL CROSS JOIN
+SQL NATURAL JOIN
+SQL LEFT OUTER JOIN (or sometimes called LEFT JOIN)
+SQL RIGHT OUTER JOIN (or sometimes called RIGHT JOIN)
+SQL FULL OUTER JOIN (or sometimes called FULL JOIN)
+SQL INNER JOIN (SIMPLE JOIN)
+SQL INNER JOINS return all rows from multiple tables where the join condition is met.
+Syntax
+The syntax for the SQL INNER JOIN is:
+SELECT columns
+FROM table1 
+INNER JOIN table2
+ON table1.column = table2.column;
+If the tables COUNTRIES and CITIES have two common columns named 
+POPULATION and COUNTRY_ISO_CODE, JOIN applies equality condition on ISO 
+codes with cities having less POPULATION attributes:
+SELECT * FROM 
+COUNTRIES 
+INNER JOIN CITIES 
+On COUNTRIES. COUNTRY_ISO_CODE=CITIES. COUNTRY_ISO_CODE 
+And COUNTRIES.POPULATION > CITIES.POPULATION;
+SQL LEFT OUTER JOIN
+Another type of join is called a LEFT OUTER JOIN. This type of join returns all rows 
+from the LEFT-hand table specified in the ON condition and only those rows from the 
+other table where the joined fields are equal (join condition is met).
+Syntax
+The syntax for the SQL LEFT OUTER JOIN is:
+SELECT columns
+FROM table1 
+LEFT [OUTER] JOIN table2
+ON table1.column = table2.column;
+In some databases, the LEFT OUTER JOIN keywords are replaced with LEFT JOIN.
+SELECT * FROM 
+COUNTRIES 
+LEFT JOIN CITIES 
+On COUNTRIES. COUNTRY_ISO_CODE=CITIES. COUNTRY_ISO_CODE 
+And COUNTRIES.POPULATION > CITIES.POPULATION;
+SQL RIGHT OUTER JOIN
+Another type of join is called a SQL RIGHT OUTER JOIN. This type of join returns all 
+rows from the RIGHT-hand table specified in the ON condition and only those rows 
+from the other table where the joined fields are equal (join condition is met).
+Syntax
+The syntax for the SQL RIGHT OUTER JOIN is:
+SELECT columns
+FROM table1
+RIGHT [OUTER] JOIN table2
+ON table1.column = table2.column;
+In some databases, the RIGHT OUTER JOIN keywords are replaced with RIGHT JOIN.
+SELECT * FROM 
+COUNTRIES 
+RIGHT JOIN CITIES 
+On COUNTRIES. COUNTRY_ISO_CODE=CITIES. COUNTRY_ISO_CODE 
+And COUNTRIES.POPULATION > CITIES.POPULATION;
+SQL FULL OUTER JOIN
+Another type of join is called a SQL FULL OUTER JOIN. This type of join returns all 
+rows from the LEFT-hand table and RIGHT-hand table with nulls in place where the 
+join condition is not met.
+Syntax
+The syntax for the SQL FULL OUTER JOIN is:
+SELECT columns
+FROM table1
+FULL [OUTER] JOIN table2
+ON table1.column = table2.column;
+In some databases, the FULL OUTER JOIN keywords are replaced with FULL JOIN.
+SELECT * FROM 
+COUNTRIES 
+FULL JOIN CITIES 
+On COUNTRIES. COUNTRY_ISO_CODE=CITIES. COUNTRY_ISO_CODE 
+And COUNTRIES.POPULATION > CITIES.POPULATION;
+SQL NATURAL JOIN
+A NATURAL JOIN is a JOIN operation that creates an implicit join clause for you 
+based on the common columns in the two tables being joined. Common columns are 
+columns that have the same name in both tables.
+If the SELECT statement in which the NATURAL JOIN operation appears has an 
+asterisk (*) in the select list, the asterisk will be expanded to the following list of 
+columns (in this order):
+  All the common columns
+  Every column in the first (left) table that is not a common column
+  Every column in the second (right) table that is not a common column
+An asterisk qualified by a table name (for example, COUNTRIES.*) will be expanded to 
+every column of that table that is not a common column.
+Syntax
+Select *
+FROM table1
+NATURAL JOIN table2;
+Examples
+If the tables COUNTRIES and CITIES have two common columns named COUNTRY 
+and COUNTRY_ISO_CODE, NATURAL JOIN applies equality condition on both 
+attributes:
+SELECT * FROM COUNTRIES NATURAL JOIN CITIES;
+CROSS JOIN operation
+A CROSS JOIN is a JOIN operation that produces the Cartesian product of two tables. 
+Unlike other JOIN operators, it does not let you specify a join clause. You may, 
+however, specify a WHERE clause in the SELECT statement.
+Examples
+The following SELECT statements are equivalent:
+SELECT * FROM CITIES CROSS JOIN 
+FLIGHTS
+SELECT * FROM CITIES, FL
