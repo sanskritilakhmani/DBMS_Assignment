@@ -1,0 +1,63 @@
+Write SQL Queries for the following:
+Q1.  Count the total number of Students.
+Select Count(sID)  From Students;
+Q2.  Calculate the average GPA of all Student.
+Select Round(Avg(GPA), 2)AS “Average GPA” From Students;
+Q3.  Determine the minimum and maximum GPA. Rename the  titles as ‘max_GPA’ and 
+‘min_GPA’ respectively.
+Select MIN(GPA) As ‘min_GPA’ , MAX(GPA) AS ‘max_GPA’  From Student;
+Q4.  Count the number of students having GPA greater than or equal to 3.7.
+Select Count(*) From Student where GPA >= 3.7;
+Q5.  Find Maximum, Average, Minimum, total GPA of all student.
+Select MIN(GPA), MAX(GPA) , Round(Avg(Distinct(GPA)), 2) , Sum(GPA) From Student;
+Q6.  Find total number of colleges in our Application Database.
+Select Count(Distinct(cName)) From Apply;
+Q7.  Find how many different majors student had applied in.
+Select Count(Distinct(Majors)) From Apply;
+Q8.  Find total no. of Applications in our Application System’s Database.
+Select Count(*) From Apply;
+Q9.  Find average of  all distinct GPA.
+Select Round(Avg(Distinct(GPA)), 2) From Student;
+Q10.  Display the total number of application accepted.
+Select Count(*) From Apply Group By Decision Having Decision = ‘Y’
+Q11.  Find number of students having GPA>3.4 and coming from high school having 
+size>1000.
+Select Count(*) From Student where GPA > 3.4 AND sizeHS >1000;
+Q12.  Find how many student applied to ‘marine biology’.
+Select Count(*) From Student Group By major Having major = ‘marine biology’;
+Q13.  Find how many applications were rejected and accepted by the colleges.
+Select decision, Count(*) From Student Group By decision
+Q14.  Find how many students applied to a particular major. (show count(sid) as 
+No_of_applications).
+Select major, Count(sID) As ‘No_of_applications’  From Apply Group By major Order By major;
+Q15.  Find number of applications received by particular college.
+Select cName,Count(sID) From Apply Group By cName Order By cName ;
+Q16.  Find number of applications received in a particular major at a particular college.
+Select cName,Count(sID) From Apply Group By cName, major Order By cName ;
+Q17.  Give the college name and major, where number of applications received are greater 
+than or equal to 2.
+Select cName, major From Apply Group By cName, major Having Count(*) >= 2
+Q18.  Give the name and no of applications of all those colleges which receives applications 
+from 3 or more students.
+Select major, Count(sID) As ‘No_of_applications’  From Apply Group By cName Having Count(sID) >= 3 Order By cName;
+Q19.  Give state and number of colleges of a state that has more than 1 college.
+Select state, Count(cName) From College Group By state Having Count(cName);
+Q20.  Find the name of students that are duplicate.
+Select sName From Student Group By sName Having Count(*) > 1;
+Q21.  Find how many applications are filed by each student. [Hint: use left join as we need 
+information about all 12 students here. If they applied no where than show zero in 
+front of them].
+Select s.sID, s.sName, Count(a.sID) As ‘No_of_applications’  From Student Left Join Apply a On s.sID = a.sID Group By (s.sID, s.sName) Order By s.sID;
+Q22.  Provide name of students that file 3 or more applications.
+Select s.sID, s.sName  From Student s Left Join Apply a On s.sID = a.sID Group By (s.sID, s.sName) Having Count(a.sID) >= 3  Order By s.sID;
+Q23.  Provide name of student who have not applied to any college.
+Select s.sID, s.sName  From Student s Left Join Apply a On s.sID = a.sID Group By (s.sID, s.sName) Having Count(a.sID) = 0  Order By s.sID;
+Q24.  Find maximum GPA, Average GPA, and minimum GPA among applicants of each 
+college. (i.e. say sID 123, 324 and 987 had applied to Berkley then compute and 
+display max GPA among these three)
+Select MIN(GPA), MAX(GPA) , Round(Avg(GPA)), 2) , Sum(GPA) From Student Join Apply  On Student.sID = Appy.sID Group By cName;
+Q25.  Find how many student have same GPA among all students. (provide this frequency 
+in two column table as GPA 3.9 is 4 times, GPA 2.9 is 2 times )
+Select GPA ,Count(*) AS “Frequency” From Student Group By GPA Order By GPA;
+Q26.  Find how many student have their name started from A, B or C.
+Select Count(sName) From Student where (sName like ‘A%’) OR (sName like ‘B%’) OR (sName like ‘C%’) ;
