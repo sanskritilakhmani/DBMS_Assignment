@@ -1,0 +1,128 @@
+create table College(cName varchar2(10) primary key, state 
+varchar2(10), enrollment int);
+create table Student(sID int primary key, sName varchar2(10), GPA 
+real, sizeHS int);
+create table Apply(sID int, cName varchar2(10), major varchar2(20), 
+decision char(1), primary key(sID, major, cName), constraint sID_fk 
+Foreign key(sID) references Student, constraint cName_fk Foreign 
+key(cName) references College);
+delete from Student;
+delete from College;
+delete from Apply;
+insert into Student values (123, 'Amy', 3.9, 1000);
+insert into Student values (234, 'Bob', 3.6, 1500);
+insert into Student values (345, 'Craig', 3.5, 500);
+insert into Student values (456, 'Doris', 3.9, 1000);
+insert into Student values (567, 'Edward', 2.9, 2000);
+insert into Student values (678, 'Fay', 3.8, 200);
+insert into Student values (789, 'Gary', 3.4, 800);
+insert into Student values (987, 'Helen', 3.7, 800);
+insert into Student values (876, 'Irene', 3.9, 400);
+insert into Student values (765, 'Jay', 2.9, 1500);
+insert into Student values (654, 'Amy', 3.9, 1000);
+insert into Student values (543, 'Craig', 3.4, 2000);
+insert into College values ('Stanford', 'CA', 15000);
+insert into College values ('Berkeley', 'CA', 36000);
+insert into College values ('MIT', 'MA', 10000);
+insert into College values ('Cornell', 'NY', 21000);
+insert into College values ('Harvard', 'MA', 50040);
+insert into Apply values (123, 'Stanford', 'CS', 'Y');
+insert into Apply values (123, 'Stanford', 'EE', 'N');
+insert into Apply values (123, 'Berkeley', 'CS', 'Y');
+insert into Apply values (123, 'Cornell', 'EE', 'Y');
+insert into Apply values (234, 'Berkeley', 'biology', 'N');
+insert into Apply values (345, 'MIT', 'bioengineering', 'Y');
+insert into Apply values (345, 'Cornell', 'bioengineering', 'N');
+insert into Apply values (345, 'Cornell', 'CS', 'Y');
+insert into Apply values (345, 'Cornell', 'EE', 'N');
+insert into Apply values (678, 'Stanford', 'history', 'Y');
+insert into Apply values (987, 'Stanford', 'CS', 'Y');
+insert into Apply values (987, 'Berkeley', 'CS', 'Y');
+insert into Apply values (876, 'Stanford', 'CS', 'N');
+insert into Apply values (876, 'MIT', 'biology', 'Y');
+insert into Apply values (876, 'MIT', 'marine biology', 'N');
+insert into Apply values (765, 'Stanford', 'history', 'Y');
+insert into Apply values (765, 'Cornell', 'history', 'N');
+insert into Apply values (765, 'Cornell', 'psychology', 'Y');
+insert into Apply values (543, 'MIT', 'CS', 'N');
+commit; 
+
+SELECT sName FROM Student where sId IN(SELECT sID FROM Apply where major = 'CS');
+
+Select sID, sName, GPA from Student  where sizeHS IN(  select sizeHS 
+from student  where sName='Jay');
+
+Select sID, sName, GPA from Student  where sizeHS IN(  select sizeHS 
+from student  where sName='Jay') AND sName <> 'Jay';
+
+Select sID, GPA From Student where GPA NOT IN( Select GPA From Student where
+sName = 'Irene'); 
+
+Select DISTINCT cName From Apply where 
+sID IN(Select sID From Student Where sName LIKE 'J%'  INTERSECT Select sID From Apply);
+
+Select DISTINCT major From Apply where sID IN(Select sID From Student where sName ='Irene');
+
+Select DISTINCT sID, major From Apply where major
+IN(Select DISTINCT major From Apply where sID 
+IN(Select sID From Student where sName ='Irene'));
+
+Select DISTINCT sID, major From Apply where major IN(Select DISTINCT major From Apply where 
+sID IN(Select sID From Student where sName ='Irene')) AND sID IN(Select sID From Student where sName ='Irene');
+
+Select Count(DISTINCT cName) From Apply where sID IN (Select sID From Student where sName ='Jay');
+
+
+Select DISTINCT sID From Apply where cName 
+IN(Select cName From Apply where sId IN 
+(Select sID From Student Where sName = 'Jay')); 
+
+Select * From Student  where sID IN
+( Select sID From Apply where major =  'CS' Minus Select sID From Apply where major =  'EE') order by sID;
+
+Select cName From College c1 where exists( Select cName From College c2 where c1.state=c2.state AND
+c1.cName NOT IN c2.cName);
+
+Select cName From College where enrollment IN(Select MAX(enrollment) From College);
+
+Select sName From Student where GPA IN(Select MIN(GPA) From Student);
+
+Select major From Apply Group BY major Having COUNT(sID) IN( Select Max(COUNT(sID)) From Apply Group By major);
+
+Select sID, sName, sizeHS From Student where sizeHS IN( Select MIN(sizeHS) From Student);
+
+Select DISTINCT s.sName From Student s JOIN Apply a ON s.sID=a.sID where a.cName 
+IN(Select DISTINCT cName From Apply where sID = 987);
+
+SELECT cName 
+FROM Apply
+GROUP BY cName 
+HAVING COUNT(sID) IN (SELECT COUNT(DISTINCT sID) From Student); 
+
+Select DISTINCT sID From Apply where cName != 'Stanford' Order By sID;
+
+Select DISTINCT sID From Apply where cName = 'Stanford' 
+INTERSECT 
+Select DISTINCT sID From Apply where cName = ' Berkeley ' 
+Order By sID;
+
+Select DISTINCT sName From Student UNION Select DISTINCT cName From College;
+
+
+Create table ApplicationInfo (sID int, sName varchar2(10), no_of_applications number(2));
+insert into ApplicationInfo select s.sID, s.sName, count(a.sID) from Student s Left Join Apply a 
+ON s.sID=a.sID group by (s.sID,s.sName);
+Select * From ApplicationInfo;
+
+Create table ApplicationData (sID int, sName varchar2(10), cName varchar2(10), state varchar2(10));
+Insert into ApplicationData SELECT DISTINCT s.sID, s.sName, c.cName, c.state
+FROM STUDENT s Left Join  Apply a ON s.sID=a.sID Join College c ON a.cName=c.cName Order By sID;
+Select * From ApplicationData;
+
+
+Update APPLY SET decision='N' WHERE
+cName='Stanford' AND sID IN 
+(SELECT sID FROM APPLY WHERE cName='Berkeley');
+
+Delete From Apply where sID IN (Select DISTINCT sID From Apply 
+Join College ON Apply.cName=College.cName where College.state =  'NY');
