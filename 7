@@ -1,0 +1,87 @@
+drop table  Apply;
+drop table  Student;
+drop table  College;
+create table College(cName varchar2(10) primary key, state 
+varchar2(10), enrollment int);
+create table Student(sID int primary key, sName varchar2(10), GPA 
+real, sizeHS int, DoB date);
+create table Apply(sID int, cName varchar2(10), major 
+varchar2(20), decision char(1), primary key(sID, major, cName), 
+constraint sID_fk Foreign key(sID) references Student, constraint 
+cName_fk Foreign key(cName) references College);
+delete from Student;
+delete from College;
+delete from Apply;
+insert into Student values (123, 'Amy', 3.9, 1000, '26-JUN-96');
+insert into Student values (234, 'Bob', 3.6, 1500, '7-Apr-95');
+insert into Student values (345, 'Craig', 3.5, 500, '4-Feb-95');
+insert into Student values (456, 'Doris', 3.9, 1000, '24-Jul-97');
+insert into Student values (567, 'Edward', 2.9, 2000, '21-Dec-96');
+insert into Student values (678, 'Fay', 3.8, 200, '27-Aug-96');
+insert into Student values (789, 'Gary', 3.4, 800, '8-Oct-96');
+insert into Student values (987, 'Helen', 3.7, 800, '27-Mar-97');
+insert into Student values (876, 'Irene', 3.9, 400, '7-Mar-96');
+insert into Student values (765, 'Jay', 2.9, 1500, '8-Aug-98');
+insert into Student values (654, 'Amy', 3.9, 1000, '26-May-96');
+insert into Student values (543, 'Craig', 3.4, 2000, '27-Aug-05');
+insert into College values ('Stanford', 'CA', 15000);
+insert into College values ('Berkeley', 'CA', 36000);
+insert into College values ('MIT', 'MA', 10000);
+insert into College values ('Cornell', 'NY', 21000);
+insert into College values ('Harvard', 'MA', 50040);
+insert into Apply values (123, 'Stanford', 'CS', 'Y');
+insert into Apply values (123, 'Stanford', 'EE', 'N');
+insert into Apply values (123, 'Berkeley', 'CS', 'Y');
+insert into Apply values (123, 'Cornell', 'EE', 'Y');
+insert into Apply values (234, 'Berkeley', 'biology', 'N');
+insert into Apply values (345, 'MIT', 'bioengineering', 'Y');
+insert into Apply values (345, 'Cornell', 'bioengineering', 'N');
+insert into Apply values (345, 'Cornell', 'CS', 'Y');
+insert into Apply values (345, 'Cornell', 'EE', 'N');
+insert into Apply values (678, 'Stanford', 'history', 'Y');
+insert into Apply values (987, 'Stanford', 'CS', 'Y');
+insert into Apply values (987, 'Berkeley', 'CS', 'Y');
+insert into Apply values (876, 'Stanford', 'CS', 'N');
+insert into Apply values (876, 'MIT', 'biology', 'Y');
+insert into Apply values (876, 'MIT', 'marine biology', 'N');
+insert into Apply values (765, 'Stanford', 'history', 'Y');
+insert into Apply values (765, 'Cornell', 'history', 'N');
+insert into Apply values (765, 'Cornell', 'psychology', 'Y');
+insert into Apply values (543, 'MIT', 'CS', 'N');
+commit; 
+
+CREATE VIEW WeakStudent AS SELECT * FROM Student where GPA < 3.7 ;
+select *from weakStudent;
+
+create view cView as select cName as collegeName ,state,enrollment as seats from college;
+select * from cView;
+
+create view CSaccept as select Student.sid, College.cName from Student join Apply on 
+student.sid=apply.sid Join College ON Apply.cName=College.cName where apply.decision='Y';
+select * from CSaccept;
+
+create view CSberkeley as select Student.sid ,Student.sName,Student.GPA,Student.sizeHS
+from Student join CSaccept on Student.sid=CSaccept.sid where CSaccept.cName='Berkeley'
+and Student.sizeHS>500;
+select * from CSberkeley;
+
+select * from CSberkeley 
+where GPA >3.8;
+
+Drop view Csaccept;
+
+update weakstudent set GPA=GPA+0.8 where sizeHS>1000;
+select * from weakstudent ;
+
+create view AppCount as select Student.sid,count(Apply.sid) as "NoOfApp" from student left join apply 
+on student.sid=apply.sid group by student.sid;
+select * from appcount; 
+
+create view StuName as select sname,GPA from student ;
+select* from StuNAME;
+
+create view studentHS as select * from student where sizeHS>1000 with check option ;
+select * from studentHS;
+
+insert into studentHS values(999,'Ram',9.9,9999,'07-oct-2020');
+select * from studentHS;
